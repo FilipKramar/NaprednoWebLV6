@@ -1,0 +1,51 @@
+extends ../layout
+
+block content
+    div(class="d-flex justify-content-center")
+        h1.
+            #{title}
+
+    form(action='/projects/new', method='get')
+        button(type='submit' class="btn btn-primary").
+            Dodaj novi projekt
+
+    #wrapper
+
+    // PROJECT LIST
+    h2 Popis projekata
+    #projectList
+        table
+            thead
+                th Naziv projekta
+                th Opis projekta
+                th Cijena projekta
+                th Obavljeni poslovi
+                th Datum početka 
+                th Datum završetka
+                th Članovi projektnog tima
+                th Detalji
+                th Edit?
+                th Delete?
+            tbody
+                - each project, i in projects
+                    tr
+                        td=project.projectName
+                        td=project.projectDescription
+                        td=project.projectPrice + "kn"
+                        td=project.projectFinishedWorks
+                        td=project.projectStartDate
+                        td=project.projectEndDate
+                        td=project.projectMembers
+                        td
+                            form(action='/projects/#{project._id}', method='get')
+                                button(type='submit', class="btn btn-primary").
+                                    Detalji
+                        td
+                            form(action='/projects/edit/#{project._id}', method='get', enctype='application/x-www-form-urlencoded')
+                                button(type='submit', class="btn btn-primary").
+                                    Uredi
+                        td
+                            form(action='/projects/edit/#{project._id}', method='post', enctype='application/x-www-form-urlencoded')
+                                input(type='hidden', value='DELETE', name='_method')
+                                button(type='submit', class="btn btn-primary").
+                                    Obriši
